@@ -1,14 +1,28 @@
-def eat(name):
-    print('【1】%s is ready for eating' % name)
-    while True:
-        food = yield  # 这是yield表达式形式，yield可以赋值给一个变量
-        print('【2】%s starts to eat %s' % (name, food))
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2019/4/20 22:19
+# @Author  : Zhnag Dongdong  
+# @File    : have a try.py
+import time
+def outer(func):
+    def timer(*args,**kwargs):
+        start = time.time()
+        res = func(*args,**kwargs)
+        end = time.time()
+        print(end - start)
+        return res
+    return timer
+@outer  # index = outer(index)
+def home(name):
+    time.sleep(2)
+    print('welcome %s to home page'%name)
 
+@outer
+def index():
+    time.sleep(1)
+    print('welcome to index page')
+    return 123
 
-person1 = eat('Albert')
+index()
+home('Albert')
 
-# 函数暂停在food = yield这行代码
-person1.__next__()
-
-# 继续执行代码，由于yield没有值，即yield = None，则food = None
-person1.__next__()

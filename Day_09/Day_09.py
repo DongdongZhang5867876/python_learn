@@ -158,10 +158,10 @@ index()
 home('Albert')
 
 # 用户认证装饰器
-import time
 current_user = {
     'username': None,
 }
+
 
 def auth(func):
     def wrapper(*args, **kwargs):
