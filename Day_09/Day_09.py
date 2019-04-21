@@ -156,3 +156,40 @@ def index():
 
 index()
 home('Albert')
+
+# 用户认证装饰器
+current_user = {
+    'username': None,
+}
+
+
+def auth(func):
+    def wrapper(*args, **kwargs):
+        if current_user['username']:
+            print('已经登陆过了')
+            res = func(*args, **kwargs)
+            return res
+
+        name = input('用户名>>: ').strip()
+        pwd = input('密码>>: ').strip()
+        if name == 'Albert' and pwd == '1':
+            print('登陆成功')
+            current_user['username'] = name
+            res = func(*args, **kwargs)
+            return res
+        else:
+            print('用户名或密码错误')
+    return wrapper
+
+@auth
+def index():
+    time.sleep(1)
+    print('welcome to index page')
+    return 1
+@auth
+def home(name):
+    time.sleep(2)
+    print('welcome %s to home page' % name)
+
+index()
+home('Albert')
